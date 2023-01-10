@@ -1,20 +1,60 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ImageBackground } from 'react-native';
-import LoginScreen from './Screens/LoginScreen';
-import RegistrationScreen from './Screens/RegistrationScreen';
+import React, { useState } from "react";
+import * as Font from "expo-font";
+import AppLoading from "expo-app-loading";
+import { NavigationContainer } from "@react-navigation/native";
+import { useRoutes } from './Route/router';
+// import { StyleSheet, Text, View, ImageBackground } from 'react-native';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      {/* <LoginScreen /> */}
-      <RegistrationScreen/>
-    </View>
-  );
+
+
+
+const loadFonts = async () => {
+    await Font.loadAsync({
+        "Roboto-Bold": require("./assets/font/Roboto-Bold.ttf"),
+        "Roboto-Medium": require("./assets/font/Roboto-Medium.ttf"),
+        "Roboto-Regular": require("./assets/font/Roboto-Regular.ttf"),
+    })
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-});
+
+
+export default function App() {
+  const [iasReady, setIasReady] = useState(false)
+  const routing = useRoutes({})
+
+    if (!iasReady) {
+        return (
+            <AppLoading
+                startAsync={loadFonts}
+                onFinish={() => setIasReady(true)}
+                onError={console.warn}
+            />
+        )
+    }
+  
+  return (
+    <NavigationContainer>
+      {routing}
+    </NavigationContainer>
+  )
+};
+
+
+
+
+//  Auth
+
+{/* <AuthStack.Navigator>
+        <AuthStack.Screen options={{headerShown: false,}} name='Login' component={LoginScreen} />
+        <AuthStack.Screen options={{headerShown: false}} name='Registration' component={RegistrationScreen} />
+      </AuthStack.Navigator> */}
+
+
+      // MainTab
+      
+      // <MainTab.Navigator>
+      //   <MainTab.Screen options={{headerShown: false}} name='CreateScreen' component={CreateScreen} />
+      //   <MainTab.Screen options={{headerShown: false}} name='PostCreen' component={PostScreen} />
+      //   <MainTab.Screen options={{headerShown: false}} name='ProfileScreen' component={ProfileScreen}/>
+      // </MainTab.Navigator>

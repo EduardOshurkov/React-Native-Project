@@ -1,16 +1,8 @@
 import React, { useState } from "react";
-import { StyleSheet, TextInput, Text, View, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, TouchableOpacity, ImageBackground } from "react-native";
-import * as Font from "expo-font";
-import AppLoading from "expo-app-loading";
+import { StyleSheet, TextInput, Text, View, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, TouchableOpacity, ImageBackground, Button } from "react-native";
 
 
-const loadFonts = async () => {
-    await Font.loadAsync({
-        "Roboto-Bold": require("../assets/font/Roboto-Bold.ttf"),
-        "Roboto-Medium": require("../assets/font/Roboto-Medium.ttf"),
-        "Roboto-Regular": require("../assets/font/Roboto-Regular.ttf"),
-    });
-};
+
 
 const initialState = {
     email: '',
@@ -18,10 +10,9 @@ const initialState = {
 }
 
 
-const LoginScreen = () => {
+const LoginScreen = ({navigation}) => {
     const [isShowKeyboard, setIsShowKeyboard] = useState(false)
     const [state, setState] = useState(initialState)
-    const [iasReady, setIasReady] = useState(false);
 
     const keyboardHide = () => {
         setIsShowKeyboard(false),
@@ -32,16 +23,6 @@ const LoginScreen = () => {
         setState(initialState);
         keyboardHide();
         console.log(state)
-    }
-
- if (!iasReady) {
-        return (
-            <AppLoading
-                startAsync={loadFonts}
-                onFinish={() => setIasReady(true)}
-                onError={console.warn}
-            />
-        );
     }
 
     return (
@@ -71,9 +52,9 @@ const LoginScreen = () => {
                         style={styles.loginFormBtn}
                         onPress={submiteForm}>
                         <Text style={styles.btnTitle}>SIGN IN</Text>
-                            </TouchableOpacity>  
+                    </TouchableOpacity>  
+                    <Button title="Нет аккаунта? Зарегистрироваться" onPress={() => navigation.navigate('Registration')}/>
                         </View>
-                    
             </ImageBackground>
             </TouchableWithoutFeedback>
     )
@@ -122,6 +103,7 @@ const styles = StyleSheet.create({
         height: 51,
         marginHorizontal: 16,
         marginTop: 43,
+        marginBottom:16,
         justifyContent: 'center',
     },
     btnTitle: {

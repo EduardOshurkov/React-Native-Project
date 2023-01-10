@@ -1,27 +1,18 @@
 import React, { useState } from "react";
-import { StyleSheet, TextInput, Text, View, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, TouchableOpacity, ImageBackground } from "react-native";
-import * as Font from "expo-font";
-import AppLoading from "expo-app-loading";
+import { StyleSheet, TextInput, Text, View, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, TouchableOpacity, ImageBackground, Button } from "react-native";
 
 
-const loadFonts = async () => {
-    await Font.loadAsync({
-        "Roboto-Bold": require("../assets/font/Roboto-Bold.ttf"),
-        "Roboto-Medium": require("../assets/font/Roboto-Medium.ttf"),
-        "Roboto-Regular": require("../assets/font/Roboto-Regular.ttf"),
-    })
-}
+
 const initialState = {
     login: '',
     email: '',
     password: '',
 };
 
-const RegistrationScreen = () => {
+const RegistrationScreen = ({navigation}) => {
     const [isShowKeyboard, setIsShowKeyboard] = useState(false)
     const [state, setState] = useState(initialState)
-    const [iasReady, setIasReady] = useState(false)
-
+    
     const keyboardHide = () => {
         setIsShowKeyboard(false),
         Keyboard.dismiss()
@@ -31,16 +22,6 @@ const RegistrationScreen = () => {
         setState(initialState);
         keyboardHide();
         console.log(state)
-    }
-
-    if (!iasReady) {
-        return (
-            <AppLoading
-                startAsync={loadFonts}
-                onFinish={() => setIasReady(true)}
-                onError={console.warn}
-            />
-        )
     }
 
     return (
@@ -79,7 +60,8 @@ const RegistrationScreen = () => {
                         style={styles.registrationFormBtn}
                         onPress={submiteForm}>
                         <Text style={styles.titleBtn}>Register</Text>
-                    </TouchableOpacity>
+                        </TouchableOpacity>
+                        <Button title={'Уже есть аккаунт? Войти'} onPress={() => navigation.navigate('Login')}/>
                         </View>
                 </ImageBackground>
             
@@ -135,6 +117,7 @@ const styles = StyleSheet.create({
         height: 51,
         width: '100%',
         marginTop: 43,
+        marginBottom:16,
         justifyContent: 'center',
     },
     titleBtn: {
